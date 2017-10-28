@@ -1,0 +1,44 @@
+body {
+  background-color: #B79F9F;
+}
+
+button {
+  border: none;
+  background: #C0BDBD;
+  cursor: pointer;
+  outline: none;
+}
+
+.app-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.category-header {
+  
+}
+
+.clip-outer-wrapper {
+
+}
+
+.clip-inner-wrapper {
+  display: flex;
+  width: 130px;
+  height: 100px;
+  padding: 10px;
+  flex-direction: column;
+}
+
+.clip-playing {
+
+}
+
+.clip-button {
+  height: 70px;
+}
+
+.copy-button {
+  border-top: 1px solid black;
+  height: 30px;
+}
