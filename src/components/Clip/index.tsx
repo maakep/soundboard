@@ -1,5 +1,7 @@
 import * as React from "react";
+
 import * as CopyToClipboard from "react-copy-to-clipboard";
+import { Progress } from "../Progress-Bar";
 
 type PropType = {
   name: string,
@@ -9,19 +11,25 @@ type PropType = {
 }
 
 type StateType = {
-  copied: boolean;
-  isPlaying: boolean;
+  copied: boolean,
+  isPlaying: boolean,
+  progress: number,
 }
 
 export class Clip extends React.Component<PropType, StateType> {
   audio: HTMLAudioElement = new Audio(this.props.url);
-  
+
   constructor(props: PropType) {
     super(props);
-    this.state = { copied: false, isPlaying: false };
+
+    this.state = { 
+      copied: false, 
+      isPlaying: false,
+      progress: 0,
+    };
 
     this.audio.onended = () => {
-      this.setState({isPlaying: false});
+      this.setState({isPlaying: false, progress: 0});
     }
   }
 
@@ -34,8 +42,7 @@ export class Clip extends React.Component<PropType, StateType> {
     } else {
       this.audio.play();
     }
-
-    this.setState({ isPlaying: !isPlaying} );
+    this.setState({ isPlaying: !isPlaying, progress: +!isPlaying } );
   }
 
   timeoutId: number;
@@ -57,11 +64,10 @@ export class Clip extends React.Component<PropType, StateType> {
               { this.props.name }
             </span>
           </button>
-          <CopyToClipboard text={ this.props.url } onCopy={ () => this.handleCopy() }>
-            <button className={"copy-button"}>
-              Copy
-            </button>
+          <CopyToClipboard text={ this.props.url.replace(new RegExp(" ", "g"), "%20") } onCopy={ () => this.handleCopy() }>
+            <button className={"copy-button"}><Progress progress={ this.state.progress } length={ this.audio.duration } /></button>
           </CopyToClipboard>
+          {this.state.copied && <span className={"copy-label"}>Copied</span>}
         </div>
       </div>
     );

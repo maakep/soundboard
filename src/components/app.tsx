@@ -1,4 +1,6 @@
 import * as React from "react";
+//import * as Dropzone from "react-dropzone";
+import { FullScreen } from "./Dropzone/fullscreen";
 
 import { Clip } from "./Clip";
 
@@ -42,22 +44,25 @@ export class App extends React.Component<null, StateType> {
 
   render() {
     const clips = this.state.clips;
-    let prevClip: ClipType = null;
+    let prevClipCat: string = "n/a";
     
     return (
-      <div className="app-wrapper">
-          {clips.map((clip, index) => {
-            prevClip = clip;
+      <FullScreen>
+        <div className="app-wrapper">
+            {clips.map((clip, index) => {
+              const newCat = (clip.category !== prevClipCat);
+              prevClipCat = clip.category;
 
-            return <Clip
-              key = { clip.category + "_" + clip.name }
-              name = { clip.name }
-              url = { clip.url }
-              category = { clip.category }
-              newCategory = { clip.category !== prevClip.category }
-            />
-          })}
-    </div>
+              return <Clip
+                key = { clip.category + "_" + clip.name }
+                name = { clip.name }
+                url = { clip.url }
+                category = { clip.category }
+                newCategory = { newCat }
+              />
+            })}
+      </div>
+    </FullScreen>
     )
   }
 }
