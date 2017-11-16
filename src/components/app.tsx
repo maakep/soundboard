@@ -1,6 +1,8 @@
 import * as React from "react";
 //import * as Dropzone from "react-dropzone";
 import { FullScreen } from "./Dropzone/fullscreen";
+import { Timeline } from "./Timeline";
+import { Search } from "./Search";
 
 import { Clip } from "./Clip";
 
@@ -12,6 +14,7 @@ export type ClipType = {
 
 type StateType = {
   clips: ClipType[],
+  searchText: string,
 }
 
 export class App extends React.Component<null, StateType> {
@@ -31,6 +34,7 @@ export class App extends React.Component<null, StateType> {
     const defaultClips: ClipType[] = [{url: "", name: "Loading", category: "Loading"}];
     this.state = {
       clips: defaultClips,
+      searchText: "",
     };
   }
 
@@ -42,26 +46,37 @@ export class App extends React.Component<null, StateType> {
     return 0;
   }
 
+  includes(search: string, target: string) {    
+    return target.indexOf(search) !== -1;
+  };
+
   render() {
     const clips = this.state.clips;
     let prevClipCat: string = "n/a";
+
+    const searchText = this.state.searchText;
     
     return (
       <FullScreen>
+        <Search search={ (searchText: string) => {this.setState({searchText})} } />
         <div className="app-wrapper">
             {clips.map((clip, index) => {
-              const newCat = (clip.category !== prevClipCat);
-              prevClipCat = clip.category;
-
-              return <Clip
-                key = { clip.category + "_" + clip.name }
-                name = { clip.name }
-                url = { clip.url }
-                category = { clip.category }
-                newCategory = { newCat }
-              />
+              if (searchText == "" || clip.name.toLowerCase().includes(searchText.toLowerCase())) {
+                const newCat = (clip.category !== prevClipCat);
+                prevClipCat = clip.category;
+              
+                return <Clip
+                  key = { clip.category + "_" + clip.name }
+                  name = { clip.name }
+                  url = { clip.url }
+                  category = { clip.category }
+                  newCategory = { newCat }
+                />
+              }
             })}
-      </div>
+        </div>
+      <Timeline>
+      </Timeline>
     </FullScreen>
     )
   }

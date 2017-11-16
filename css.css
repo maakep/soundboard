@@ -1,6 +1,7 @@
 body {
   background-color: #e2e1e0;
   margin: 0;
+  overflow-y: scroll;
 }
 
 button {
@@ -94,4 +95,36 @@ button:active {
 
 .dropzone.active {
   box-shadow:inset 0px 0px 0px 15px #ACD98E;
+}
+
+.timeline-root {
+  position: fixed;
+  width: 100%;
+  height: 120px;
+  background: white;
+  box-shadow: 0px -10px 28px rgba(0,0,0,0.25), 10px 10px 10px rgba(0,0,0,0.22);
+  bottom: -60px;
+  transition: 0.2s ease-in-out;
+  display: flex;
+}
+.timeline-active {
+  bottom: 0px;
+}
+
+.search-input {
+  outline: none;
+  border: none;
+  padding: 10px;
+  margin: 0;
+  min-width: 300px;
+  width: 40%;
+
+  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+  transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+
+  margin-left: 50%;
+  transform: translateX(-50%);
+}
+.search-input:focus {
+  box-shadow: 0px 2px 12px rgba(0,0,0,0.25), -3px 6px 10px rgba(0,0,0,0.22);
 }
